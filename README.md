@@ -6,3 +6,5 @@ MIPS芯片架构用的是精简指令系统计算结构（RISC结构），是国
 
 # Reference:
 [Kubernetes issue #85932 kubernetes e2e tests images for arch mips64el](https://github.com/kubernetes/kubernetes/issues/85932)
+
+[Kubernetes issue #34600 Build kubernetes for a new arch---mips6el](https://github.com/kubernetes/kubernetes/issues/34600)
