@@ -20,7 +20,6 @@ git                   | 1.8.3 +
    ```sh
       $ git clone https://github.com/kubernetes/kubernetes.git
       $ cd kubernetes  && git checkout v1.15.3
-      $ cp ../kubernetes-mips/0001-build-mips-k8s.patch  .
    ```
 
 ## Step 3: 在kubernetes项目主目录，拷贝kubernetes-mips项目中补丁0001-build-mips-k8s.patch到当前目录并打补丁。
