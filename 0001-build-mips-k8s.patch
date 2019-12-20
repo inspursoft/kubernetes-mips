@@ -1,0 +1,70 @@
+From db59113ef293b3d74bd04615e267c35cf1f68755 Mon Sep 17 00:00:00 2001
+From: root <root@node-10.110.36.225>
+Date: Fri, 11 Oct 2019 15:46:15 +0800
+Subject: [PATCH] build mips k8s
+
+---
+ build/root/Makefile                        |  2 +-
+ hack/lib/util.sh                           |  3 +++
+ vendor/github.com/google/cadvisor/fs/fs.go | 10 +++++-----
+ 3 files changed, 9 insertions(+), 6 deletions(-)
+
+diff --git a/build/root/Makefile b/build/root/Makefile
+index cd72ebbde0..7ae7aa1b88 100644
+--- a/build/root/Makefile
++++ b/build/root/Makefile
+@@ -39,7 +39,7 @@ MAKEFLAGS += --no-builtin-rules
+ # Constants used throughout.
+ .EXPORT_ALL_VARIABLES:
+ OUT_DIR ?= _output
+-BIN_DIR := $(OUT_DIR)/bin
++BIN_DIR := $(OUT_DIR)/local/go/bin
+ PRJ_SRC_PATH := k8s.io/kubernetes
+ GENERATED_FILE_PREFIX := zz_generated.
+ 
+diff --git a/hack/lib/util.sh b/hack/lib/util.sh
+index 9c1c2093a1..7745e57d5c 100755
+--- a/hack/lib/util.sh
++++ b/hack/lib/util.sh
+@@ -129,6 +129,9 @@ kube::util::host_os() {
+ kube::util::host_arch() {
+   local host_arch
+   case "$(uname -m)" in
++    mips64*)
++      host_arch=mips64le
++      ;;
+     x86_64*)
+       host_arch=amd64
+       ;;
+diff --git a/vendor/github.com/google/cadvisor/fs/fs.go b/vendor/github.com/google/cadvisor/fs/fs.go
+index 269e914ffa..9f3187a554 100644
+--- a/vendor/github.com/google/cadvisor/fs/fs.go
++++ b/vendor/github.com/google/cadvisor/fs/fs.go
+@@ -514,8 +514,8 @@ func (self *RealFsInfo) GetDirFsDevice(dir string) (*DeviceInfo, error) {
+ 		return nil, fmt.Errorf("stat failed on %s with error: %s", dir, err)
+ 	}
+ 
+-	major := major(buf.Dev)
+-	minor := minor(buf.Dev)
++	major := major(uint64(buf.Dev))
++	minor := minor(uint64(buf.Dev))
+ 	for device, partition := range self.partitions {
+ 		if partition.major == major && partition.minor == minor {
+ 			return &DeviceInfo{device, major, minor}, nil
+@@ -756,10 +756,10 @@ func getBtrfsMajorMinorIds(mount *mount.Info) (int, int, error) {
+ 			return 0, 0, err
+ 		}
+ 
+-		klog.V(4).Infof("btrfs dev major:minor %d:%d\n", int(major(buf.Dev)), int(minor(buf.Dev)))
+-		klog.V(4).Infof("btrfs rdev major:minor %d:%d\n", int(major(buf.Rdev)), int(minor(buf.Rdev)))
++		klog.V(4).Infof("btrfs dev major:minor %d:%d\n", int(major(uint64(buf.Dev))), int(minor(uint64(buf.Dev))))
++		klog.V(4).Infof("btrfs rdev major:minor %d:%d\n", int(major(uint64(buf.Rdev))), int(minor(uint64(buf.Rdev))))
+ 
+-		return int(major(buf.Dev)), int(minor(buf.Dev)), nil
++		return int(major(uint64(buf.Dev))), int(minor(uint64(buf.Dev))), nil
+ 	} else {
+ 		return 0, 0, fmt.Errorf("%s is not a block device", mount.Source)
+ 	}
+-- 
+2.21.0
+
