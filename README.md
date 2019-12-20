@@ -10,5 +10,5 @@ MIPS芯片架构用的是精简指令系统计算结构（RISC结构），是国
 [Kubernetes issue #34600 Build kubernetes for a new arch---mips6el](https://github.com/kubernetes/kubernetes/issues/34600)
 
 # k8s-conformance
-1. 一致性测试所需镜像[列表](k8s-conformace-images)，在国内需要将`gcr.io`替换为`gcr.azk8s.cn`、`quay.io`替换为`quay.azk8s.cn`、`k8s.gcr.io`替换为`gcr.azk8s.cn`，建议提前将镜像在集群各个节点下载好
+1. 一致性测试所需镜像[列表](k8s-conformace-images-list)，在国内需要将`gcr.io`替换为`gcr.azk8s.cn`、`quay.io`替换为`quay.azk8s.cn`、`k8s.gcr.io`替换为`gcr.azk8s.cn`，建议提前将镜像在集群各个节点下载好
 2. 在master节点根据cncf[官方文档](https://github.com/cncf/k8s-conformance/blob/master/instructions.md)安装sonobuoy并进行一致性测试
